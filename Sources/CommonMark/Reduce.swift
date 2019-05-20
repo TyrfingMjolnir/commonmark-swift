@@ -106,7 +106,31 @@ extension String: Monoid { }
 ///     links.inline.link = { _, _, url in url.map { [$0] } ?? [] }
 ///     let allLinks = Node(markdown: string)!.reduce(links)
 public func collect<M: Monoid>() -> BlockAlgebra<M> {
-    let inline: InlineAlgebra<M> = InlineAlgebra<M>(text: { _ in .init() }, softBreak: .init(), lineBreak: .init(), code: { _ in .init()}, html: { _ in .init() }, emphasis: { $0.flatten() }, strong: { $0.flatten() }, custom: { _ in .init() }, link: { x,_,_ in x.flatten() }, image: { x,_, _ in x.flatten() })
+    let inline: InlineAlgebra<M> = InlineAlgebra<M>(
+        text: { _ in .init() },
+        softBreak: .init(),
+        lineBreak: .init(),
+        code: { _ in .init()},
+        html: { _ in .init() },
+        emphasis: { $0.flatten() },
+        strong: { $0.flatten() },
+        custom: { _ in .init() },
+        link: { x,_,_ in x.flatten() },
+        image: { x,_, _ in x.flatten() }
+    )
     
-    return BlockAlgebra<M>(inline: inline, list: { x, _ in x.flatten() }, listItem: { $0.flatten() }, blockQuote: { $0.flatten() }, codeBlock: { _,_ in .init() }, html: { _ in .init() }, paragraph: { $0.flatten() }, heading: { x,_ in x.flatten() }, custom: { _ in .init() }, thematicBreak: .init(), document: { $0.flatten() }, defaultValue: .init())
+    return BlockAlgebra<M>(
+        inline: inline,
+        list: { x, _ in x.flatten() },
+        listItem: { $0.flatten() },
+        blockQuote: { $0.flatten() },
+        codeBlock: { _,_ in .init() },
+        html: { _ in .init() },
+        paragraph: { $0.flatten() },
+        heading: { x,_ in x.flatten() },
+        custom: { _ in .init() },
+        thematicBreak: .init(),
+        document: { $0.flatten() },
+        defaultValue: .init()
+    )
 }
